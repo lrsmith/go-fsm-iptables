@@ -1,0 +1,25 @@
+Chain INPUT (policy ACCEPT 1575 packets, 537959 bytes)
+    pkts      bytes    target                   prot opt in     out source   destination         
+460362059 258161416200 One             all  --  any    any anywhere anywhere    /* Comment:1 */
+397732868 243154865209 Two            all  --  any    any anywhere anywhere    
+397755162 243164659808 Three            all  --  any    any anywhere anywhere    /* Comment:2*/
+
+Chain One (1 references)
+    pkts      bytes    target                   prot opt in     out source   destination  
+0         0            ACCEPT                   all  --  any    any anywhere anywhere     /* Comment:3 */ mark match 0x1000000/0x1000000
+63039895  15031880419  Four          all  --  eth0+  any anywhere anywhere     [goto]  /* Comment:4 */
+397333083 243133675324 MARK                     all  --  any    any anywhere anywhere     /* Comment:5 */ MARK and 0xf0ffffff
+       0        0      ACCEPT                   all  --  any    any anywhere anywhere     /* Comment:6 */ /* Comment:7 */ mark match 0x1000000/0x1000000
+
+Chain Four (1 references)
+    pkts      bytes    target                   prot opt in     out source   destination
+  406752 24405120      RETURN                   all  --  any    any anywhere anywhere     /* Comment:8 */ /* Comment:9 */
+
+
+Chain Two (1 references)
+    pkts      bytes    target         prot opt in     out source   destination 
+       0        0      DROP           all  --  any    any anywhere anywhere    /* Comment:10 */ mark match 0x8000/0x8000
+
+Chain Three  (1 references)
+    pkts      bytes    target         prot opt in     out source    destination  
+       0        0      REJECT         tcp  --  any    any anywhere  localhost.localdomain  /* Comment:11 */ tcp dpt:1234 reject-with icmp-port-unreachable

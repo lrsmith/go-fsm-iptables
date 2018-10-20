@@ -1,0 +1,28 @@
+
+digraph finite_state_machine {
+	rankdir=LR;
+	size="8,5"
+
+	node [shape = doublecircle]; ACCEPT
+	node [shape = doublecircle]; DROP
+	node [shape = doublecircle]; MARK
+	node [shape = circle];
+
+	{ rank=same ACCEPT DROP MARK }
+
+
+    "INPUT" -> "One";
+    "One" -> "ACCEPT";
+    "One" -> "Four";
+    "Four" -> "RETURN";
+    "RETURN" -> "Four";
+    "One" -> "MARK";
+    "MARK" -> "One";
+    "One" -> "ACCEPT";
+    "INPUT" -> "Two";
+    "Two" -> "DROP";
+    "INPUT" -> "Three";
+    "Three" -> "REJECT";
+
+}
+
